@@ -21,8 +21,8 @@ say '-------------------------------------------------';
 
 my $rpc1 =
   Postgrest->new( { url => $url } )->rpc( 'add_them', { a => 3, b => 4 } )->exec($token);
-
 say 'RPC1:' . dump $rpc1;
 
-say 'URI:--' . $rpc1->uri;
-say 'BODY: --' . $rpc1->body;
+my $rpc2 =
+  Postgrest->new( { url => $url } )->rpc( 'greet_user', {username => "Santa Claus"} )->exec($token);
+say 'RPC2:' . dump $rpc2;
