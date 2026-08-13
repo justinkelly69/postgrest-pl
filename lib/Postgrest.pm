@@ -26,11 +26,10 @@ sub exec {
     $ua->default_header( 'Content-Type'  => 'application/json' );
     my $res;
 
-    say 'URI: ' . $self->uri;
-    say 'BODY: ' . encode_json($self->body) if ($self->body);
     switch ( $self->command ) {
         case 'rpc' {
-            # TODO
+            $res =
+              $ua->post( $self->uri, Content => encode_json( $self->body ) );
         }
         case 'select' {
             $res = $ua->get( $self->uri );
@@ -62,6 +61,33 @@ sub exec {
     else {
         die $res->status_line;
     }
+
+    return $self;
+}
+
+sub rpc {
+    my ($self, $rpc, $body) = @_;
+
+    $self->url =~ m|.*?(/rpc)?(/)?$|;
+
+    if($1 eq '/rpc'){
+        if($2 eq '/'){
+            $self->uri($self->url . $rpc);
+        }
+        else {
+            $self->uri($self->url . '/' . $rpc);
+        }
+    }
+    else {
+        $self->uri($self->url . '/rpc/' . $rpc);
+    }
+
+    $self->body($body);
+    $self->has_from(1);
+    $self->command('rpc');
+
+    say 'BODY:' . encode_json($self->body);
+    say 'URI:' . $self->uri;
 
     return $self;
 }

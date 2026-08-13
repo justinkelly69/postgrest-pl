@@ -5,7 +5,7 @@ use JSON::PP   qw|encode_json decode_json|;
 use Data::Dump qw(dump);
 
 use lib 'lib';
-use Postgrest qw(exec, from eq) ;
+use Postgrest qw(exec from eq) ;
 use Token     qw(new_token get_secret);
 
 my $conf    = './tutorial.conf';
