@@ -39,7 +39,9 @@ sub exec {
               $ua->post( $self->uri, Content => encode_json( $self->body ) );
         }
         case 'upsert' {
-            $ua->default_header( 'Prefer: resolution' => 'merge-duplicates' );
+            $ua->default_header( 'Prefer' => 'resolution=merge-duplicates' );
+            say 'URI:' . $self->uri;
+            say 'BODY:' . encode_json($self->body);
             $res =
               $ua->post( $self->uri, Content => encode_json( $self->body ) );
         }
